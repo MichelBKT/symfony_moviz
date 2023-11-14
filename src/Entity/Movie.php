@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MovieRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,7 +20,7 @@ class Movie
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?int $release_year = null;
+    private ?DateTime $release_year = null;
 
     #[ORM\OneToMany(mappedBy: 'movie', targetEntity: Review::class, orphanRemoval: true)]
     private Collection $reviews;
@@ -35,6 +36,11 @@ class Movie
         $this->reviews = new ArrayCollection();
         $this->directors = new ArrayCollection();
         $this->genres = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     public function getId(): ?int
@@ -54,12 +60,12 @@ class Movie
         return $this;
     }
 
-    public function getReleaseYear(): ?int
+    public function getReleaseYear(): ?DateTime
     {
         return $this->release_year;
     }
 
-    public function setReleaseYear(int $release_year): static
+    public function setReleaseYear(DateTime $release_year): static
     {
         $this->release_year = $release_year;
 
